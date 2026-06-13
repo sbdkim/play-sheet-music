@@ -1,0 +1,18 @@
+services:
+  omr-api:
+    build:
+      context: .
+      dockerfile: services/omr-api/Dockerfile
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8787
+      ALLOWED_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      JOBS_ROOT: /app/services/omr-api/data/jobs
+      PDF_RASTERIZE_COMMAND: gs -dNOPAUSE -dBATCH -sDEVICE=tiffgray -r400 -sOutputFile="{output}" "{input}"
+    volumes:
+      - omr-jobs:/app/services/omr-api/data/jobs
+
+volumes:
+  omr-jobs:
